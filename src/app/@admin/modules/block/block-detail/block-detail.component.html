@@ -1,0 +1,30 @@
+<div class="mt" style="margin-bottom: 10px;height: auto;text-align: center;" >
+    <p-panel header=" Thông Tin Khối" >
+        <p> Tên Khối: <p-badge severity="info" value="{{block?.blockname}}" styleClass="p-mr-2"></p-badge></p>
+        <p> Người Tạo : <p-badge severity="warning" value="{{block?.createdBy || 'admin'}}" styleClass="p-mr-2"></p-badge></p>
+        <p>Ngày Tạo : <p-badge severity="primary" value="{{block?.createdDate | date : 'dd/MM/yyyy'}}" styleClass="p-mr-2"></p-badge></p>
+    </p-panel>
+</div>
+
+<p-panel header="Danh sách Môn">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Xóa Môn" icon="pi pi-trash" class="p-button-danger" (click)="onDeleteMajors()" [disabled]="!majors || majors.length == 0 || !selectedMajors || selectedMajors.length === 0"></button>
+        </ng-template>
+    </p-toolbar>
+    <app-table-major [majors]="majors" [isDynamic]="true" [showColBlock]="false"
+    (onShowMathDesign)="onShowMathDesign($event)"
+    (onSelected)="onSelectedMajors($event)"></app-table-major>
+</p-panel>
+
+<p-panel header="Danh sách Lớp">
+  <p-toolbar styleClass="p-mb-4">
+      <ng-template pTemplate="left">
+          <button pButton pRipple label="Xóa Lớp" icon="pi pi-trash" class="p-button-danger" (click)="onDeleteClasses()" [disabled]="!classes || classes.length == 0 ||!selectedClasses || selectedClasses.length === 0"></button>
+      </ng-template>
+  </p-toolbar>
+  <app-table-class [classes]="classes" [isDynamic]="true" [showColBlock]="false" [showColStudent]="true"
+  (onShowStudent)="onShowStudent($event)" (onSelected)="onSelectedClass($event)"></app-table-class>
+</p-panel>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

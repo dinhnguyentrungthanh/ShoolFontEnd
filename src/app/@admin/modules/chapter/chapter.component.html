@@ -1,0 +1,69 @@
+<p-panel header="Danh Sách Chương">
+    <div class="card">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Tạo Mới" icon="pi pi-plus" class="p-button-success p-mr-2"
+                    (click)="openNew()"></button>
+                <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger"
+                    (click)="deleteSelectedChapter()" [disabled]="!selectedChapter || !selectedChapter.length"></button>
+            </ng-template>
+
+        </p-toolbar>
+        <app-table-chapter
+            [chapters]="chapters" [loading]="loading"
+            [rows]="rows" [totalRecords]="totalRecords"
+            (onDelete)="deleteChapter($event)"
+            (onSelected)="onSelected($event)"
+            (onEdit)="editChapter($event)"
+            (onPagingChange)="onPagingChange($event)"></app-table-chapter>
+
+    </div>
+    <p-dialog [(visible)]="chapterDialog" [style]="{width: '450px'}" header="Chi tiết chương" [maximizable]="true"
+        [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+        <ng-template pTemplate="content">
+            <div class="p-grid p-fluid">
+                <div class="p-col-12">
+                    <div class="p-field">
+                        <p-dropdown [style]="{width: '395px'}"[options]="blocks" [(ngModel)]="block" placeholder="Chọn Khối"
+                            optionLabel="blockname" [showClear]="true"></p-dropdown>
+                        <small class="p-invalid" *ngIf="submitted && !block">
+                            Chọn Khối là bắt buộc
+                        </small>
+                    </div>
+                </div>
+                <div class="p-col-12">
+                    <div class="p-field">
+                        <p-dropdown [style]="{width: '395px'}" [options]="mathDesigns" [(ngModel)]="mathDesign" placeholder="Chọn Phân Môn"
+                            optionLabel="mathDesignName" [showClear]="true"></p-dropdown>
+                        <small class="p-invalid" *ngIf="submitted && !mathDesign">
+                            Chọn Phân Môn là bắt buộc
+                        </small>
+                    </div>
+                </div>
+                <div class="p-col-12">
+                    <div class="p-field" [formGroup]="form">
+                        <label for="classname">Tên Chương</label>
+                        <input type="text" pInputText [class.ng-invalid]="isExistedchaptername"
+                            formControlName="chaptername" id="chaptername" [(ngModel)]="chapter.chaptername" required
+                            autofocus />
+                        <small class="p-invalid" *ngIf="(submitted && !chapter.chaptername) || ((f.chaptername.touched || f.chaptername.dirty || submitted) && f.chaptername.errors?.required)
+              ">Tên Chương là bắt buộc</small>
+                        <small class="p-invalid" *ngIf="isExistedchaptername">
+                            Tên Chương đã tồn tại
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-text"
+                (click)="hideDialog()"></button>
+            <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveChapter()"
+                *ngIf="!isEditing"></button>
+            <button pButton pRipple label="Cập Nhật" icon="pi pi-check" class="p-button-text" (click)="updateChapter()"
+                *ngIf="isEditing"></button>
+        </ng-template>
+    </p-dialog>
+</p-panel>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

@@ -1,0 +1,114 @@
+<p-panel header="DANH SÁCH CÂU HỎI KIỂM TRA">
+  <div class="card">
+    <app-table-test [selectedTests]="selectedTests" [tests]="tests" [loading]="loading" [rows]="rows"
+      [loadingCreating]="loadingCreating" [loadingEditing]="loadingEditing"
+      [totalRecords]="totalRecords" (onPagingChange)="onPagingChange($event)" (onDelete)="onDelete($event)"
+      (onEdit)="onEdit($event)" (onSelected)="onSelected($event)" (onDeleteAll)="onDeleteAllTests()"
+      (onCreate)="onCreate()"></app-table-test>
+  </div>
+</p-panel>
+
+<p-dialog [(visible)]="isOpenDialog" [style]="{width: '1000px', position:'relative'}" header="CÂU HỎI KIỂM TRA"
+  [maximizable]="true" [baseZIndex]="2" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content">
+    <div class="p-grid p-fluid">
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="question">Câu hỏi:</label>
+          <ckeditor id="question" [ngModel]="test.question" [config]="toolBar" formControlName="question"
+            [editor]="Editor"></ckeditor>
+          <small class="p-invalid" *ngIf="(submitted && !f.question.value) || ((f.question.touched || f.question.dirty || submitted) && f.question.errors?.required)
+            ">Câu hỏi là bắt buộc</small>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field">
+          <label for="answers">Câu trả lời Đúng:</label>
+          <p-dropdown id="answers" [options]="answers" [(ngModel)]="selectedAnswer"
+            optionLabel="label" placeholder="Chọn câu Trả lời đúng">
+          </p-dropdown>
+          <small class="p-invalid" *ngIf="submitted && (!selectedAnswer)">Câu trả lời Đúng là bắt buộc</small>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="answer1">Câu trả lời TN 1:</label>
+          <ckeditor id="answer1" [ngModel]="test.answer1" [config]="toolBar" formControlName="answer1"
+            [editor]="Editor">
+          </ckeditor>
+          <small class="p-invalid" *ngIf="(submitted && !f.answer1.value) || ((f.answer1.touched || f.answer1.dirty || submitted) && f.answer1.errors?.required)
+            ">Câu trả lời TN 1 là bắt buộc</small>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="answer2">Câu trả lời TN 2:</label>
+          <ckeditor id="answer2" [ngModel]="test.answer2" [config]="toolBar" formControlName="answer2"
+            [editor]="Editor">
+          </ckeditor>
+          <small class="p-invalid" *ngIf="(submitted && !f.answer2.value) || ((f.answer2.touched || f.answer2.dirty || submitted) && f.answer2.errors?.required)
+            ">Câu trả lời TN 2 là bắt buộc</small>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="answer3">Câu trả lời TN 3:</label>
+          <ckeditor id="answer3" [ngModel]="test.answer3" [config]="toolBar" formControlName="answer3"
+            [editor]="Editor">
+          </ckeditor>
+          <small class="p-invalid" *ngIf="(submitted && !f.answer3.value) || ((f.answer3.touched || f.answer3.dirty || submitted) && f.answer3.errors?.required)
+            ">Câu trả lời TN 3 là bắt buộc</small>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="answer4">Câu trả lời TN 4:</label>
+          <ckeditor id="answer4" [ngModel]="test.answer4" [config]="toolBar" formControlName="answer4"
+            [editor]="Editor">
+          </ckeditor>
+          <small class="p-invalid" *ngIf="(submitted && !f.answer4.value) || ((f.answer4.touched || f.answer4.dirty || submitted) && f.answer4.errors?.required)
+            ">Câu trả lời TN 4 là bắt buộc</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-raised p-button-warning"
+      (click)="isOpenDialog = !isOpenDialog"></button>
+    <button pButton pRipple label="Tạo Mới" icon="pi pi-check" class="p-button-raised p-button-info" *ngIf="!isEditing"
+      (click)="save()" [loading]="disableBtn"></button>
+    <button pButton pRipple label="Cập Nhật" icon="pi pi-check" class="p-button-raised p-button-info" *ngIf="isEditing"
+      (click)="update()" [loading]="disableBtn"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isOpenDialogEssay" [style]="{width: '1000px', position:'relative'}" header="CÂU HỎI KIỂM TRA"
+  [maximizable]="true" [baseZIndex]="2" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content">
+    <div class="p-grid p-fluid">
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="formEssay">
+          <label for="question">Câu hỏi:</label>
+          <ckeditor id="question" [ngModel]="test.question" [config]="toolBar" formControlName="question"
+            [editor]="Editor"></ckeditor>
+          <small class="p-invalid" *ngIf="(submitted && !formEssay.controls.question.value) || ((formEssay.controls.question.touched || formEssay.controls.question.dirty || submitted) && formEssay.controls.question.errors?.required)
+            ">Câu hỏi là bắt buộc</small>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="formEssay">
+          <label for="answerEssay" >Bài Giải:</label>
+          <ckeditor id="answerEssay" [ngModel]="test.answerEssay" formControlName="answerEssay" [config]="toolBar" [editor]="Editor"></ckeditor>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-raised p-button-warning"
+      (click)="isOpenDialogEssay = !isOpenDialogEssay"></button>
+    <button pButton pRipple label="Tạo Mới" icon="pi pi-check" class="p-button-raised p-button-info" *ngIf="!isEditing"
+      (click)="saveEssay()" [loading]="disableBtn"></button>
+    <button pButton pRipple label="Cập Nhật" icon="pi pi-check" class="p-button-raised p-button-info" *ngIf="isEditing"
+      (click)="updateEssay()" [loading]="disableBtn"></button>
+  </ng-template>
+</p-dialog>

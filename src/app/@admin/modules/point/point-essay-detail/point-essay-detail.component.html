@@ -1,0 +1,74 @@
+<p-panel header="Chi Tiết Bài Kiểm Tra Tự Luận">
+  <ng-template #spin1>
+    <div class="p-d-flex p-jc-center">
+      <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="5"
+        fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+    </div>
+  </ng-template>
+  <div class="p-d-flex p-flex-column p-jc-center p-ai-center" *ngIf="point; else spin1">
+    <p> Tên Học Viên: <p-badge value="{{user.fullname}}" severity="primary" styleClass="p-mr-2"></p-badge>
+    </p>
+    <p> Tên Tài Khoản : <p-badge value="{{user.username}}" severity="success" styleClass="p-mr-2"></p-badge>
+    </p>
+    <p> Ngày Nộp Bài : <p-badge value="{{point?.modifiedDate | date : 'HH:mm dd/MM/yyyy'}}" severity="info"
+        styleClass="p-mr-2"></p-badge>
+    </p>
+    <p> Điểm : <p-badge *ngIf="point.completed" value="{{point?.point}}" severity="danger" styleClass="p-mr-2">
+      </p-badge>
+      <p-badge *ngIf="!point.completed" value="processing" severity="warning" styleClass="p-mr-2"></p-badge>
+    </p>
+  </div>
+</p-panel>
+
+<p-panel header="Câu Hỏi và Bài Giải">
+  <ng-template #spin>
+    <div class="p-d-flex p-jc-center">
+      <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="5"
+        fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+    </div>
+  </ng-template>
+  <div class="p-d-flex p-flex-column" style="padding: 5px 10px" *ngIf="tests$ | async as ts; else spin">
+    <div class="question p-dlex" *ngFor="let t of ts; let i = index">
+      <h2 class="p-ml-0 p-mt-2 p-mb-2" style="color:blue ">Câu Hỏi {{i + 1}} : </h2>
+      <div style="padding-top: 5px;" [innerHtml]="t.question | safeHtml"></div>
+    </div>
+    <div class="answer" style="border-top: 1px solid;">
+      <h2 class="p-ml-0 p-mt-2 p-mb-2" style="color:red ">Bài Giải:</h2>
+      <div class="p-d-block" [innerHtml]="point.answerEssay | safeHtml"></div>
+    </div>
+
+    <div class="p-d-block" style="padding: 15px 10px; border-top: 1px solid; text-align: center;">
+      <button pButton pRipple icon="pi pi-save" type="button" label="Chấm Điểm"
+        class="p-button-outlined p-button-sucess p-mr-2" (click)="complete()"></button>
+      <button pButton pRipple icon="pi pi-arrow-left" type="button" label="Trở Về"
+        class="p-button-outlined p-button-danger " [routerLink]="['../']"></button>
+    </div>
+  </div>
+</p-panel>
+
+<p-dialog [(visible)]="isShowDialogPoint" [style]="{width: '450px', position:'relative'}"
+  header="Thông tin Bài Kiểm Tra" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content">
+    <div class="p-grid p-fluid">
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="time">Điểm:</label>
+          <p-inputNumber id="point" [(ngModel)]="point.point" [minFractionDigits]="2" formControlName="point"
+            suffix=" điểm"></p-inputNumber>
+          <small class="p-invalid" *ngIf="f.point.errors?.required
+        ">Điểm là bắt buộc</small>
+          <small class="p-invalid" *ngIf="((f.point.touched || f.point.dirty || submitted) && f.point.errors?.min)
+        ">Điểm phải là số từ 0 đến 10</small>
+          <small class="p-invalid" *ngIf="((f.point.touched || f.point.dirty || submitted) && f.point.errors?.max)
+        ">Điểm phải là số từ 0 đến 10</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-raised p-button-danger"
+      (click)="isShowDialogPoint = !isShowDialogPoint"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-raised p-button-info" (click)="save()"
+      [loading]="submitted"></button>
+  </ng-template>
+</p-dialog>

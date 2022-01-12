@@ -1,0 +1,43 @@
+<p-panel header="GÓC KIẾN THỨC">
+  <div class="header" *ngIf="knowledge">
+    <h2 style="color: blue; text-align: center;">KIẾN THỨC ÔN TẬP</h2>
+  </div>
+  <p-fieldset legend="Nội Dung Lý Thuyết" [toggleable]="true">
+    <div class="content p-grid p-fluid p-p-relative">
+      <div class="p-col-12" *ngIf="knowledge">
+        <div style="width: 100%;" [innerHtml]="knowledge.contents | safeHtml"></div>
+      </div>
+    </div>
+  </p-fieldset>
+  <p-fieldset legend="Câu Hỏi Ôn Tập" [toggleable]="true" [collapsed]="false"
+    *ngIf="reviewQuestions && reviewQuestions.length !== 0">
+    <div class="p-grid">
+      <div class="p-col-12 p-pd-3 p-mt-3" style="border-top: 1px solid;">
+        <div class="p-d-flex p-flex-row p-ai-center p-jc-center">
+          <img src="assets/images/oclock.jpg" style="width: 64px ;cursor: pointer;">
+          <countdown #cd style="font-size: 1.5em;" (event)="handleEvent($event)">
+          </countdown>
+          <h2 class="p-ml-2">Phút</h2>
+        </div>
+      </div>
+      <div class="p-col-12 p-d-flex p-jc-between p-mt-3">
+        <button pButton pRipple icon="pi pi-arrow-left" type="button" class="p-button-outlined p-button-info"
+          (click)="prev()" [disabled]="currentIndex == 0 || (currentIndex > 0 && !hasPrev) || isRunning"></button>
+        <button pButton pRipple icon="pi pi-save" type="button" label="Bắt Đầu" class="p-button-raise p-button-success"
+          (click)="start()" *ngIf="!isDoTest"></button>
+        <button pButton pRipple icon="pi pi-arrow-right" type="button" class="p-button-outlined p-button-info"
+          (click)="next()"
+          [disabled]="currentIndex == reviewQuestions.length - 1 ||  (currentIndex === maxIndex && isRunning)"></button>
+      </div>
+      <div class="p-col-12 p-d-flexp-mt-3" *ngIf="currentIndex !== -1">
+        <h3 style="color: blue">Câu hỏi {{currentIndex + 1}}: </h3>
+        <div class="contents" [innerHTML]="reviewQuestions[currentIndex]?.reviewQuestionName | safeHtml"></div>
+      </div>
+
+      <div class="p-col-12 p-d-flexp-mt-3" *ngIf="!isRunning || (currentIndex < maxIndex && hasPrev)">
+        <h3 style="color: red">Đáp Án: </h3>
+        <div class="contents" [innerHTML]="reviewQuestions[currentIndex]?.reviewQuestionAnswer | safeHtml"></div>
+      </div>
+    </div>
+  </p-fieldset>
+</p-panel>

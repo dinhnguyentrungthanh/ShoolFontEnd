@@ -1,0 +1,47 @@
+:host{
+  padding: 0;
+  margin: 0;
+}
+
+.layout_container{
+  display: block;
+  width: 100%;
+  min-height: var(--min_hight-content);
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  .layout_menubar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: var(--height-menubar);
+      width: 100%;
+      display: block;
+      z-index: 1001;
+      //background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);
+  }
+
+  .layout_sidebar{
+      position: fixed;
+      top: var(--height-menubar);
+      left: 0;
+      height: 100%;
+      background-color: #fff;
+      display: block;
+      width: var(--width-sidebar);
+  }
+
+  .layout_contents{
+      margin-top: var(--height-menubar);
+      margin-left: var(--width-sidebar);
+      padding: 2rem;
+      min-height: var(--min_hight-content);
+      overflow-x: hidden;
+
+      &-full{
+        margin-left: 0;
+      }
+  }
+
+}

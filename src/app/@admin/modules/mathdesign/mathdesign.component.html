@@ -1,0 +1,55 @@
+<p-panel header="Danh Sách Phân Môn">
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Tạo Mới" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+            <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedMathDesigns()" [disabled]="!selectedMathdesigns || !selectedMathdesigns.length"></button>
+        </ng-template>
+
+    </p-toolbar>
+
+    <app-table-mathdesign
+      [mathdesigns]="mathdesigns" [rows]="rows"
+      [totalRecords]="totalRecords" [loading]="loading"
+      (onEdit)="editMathDesign($event)" (onDelete)="deleteMathDesign($event)"
+     (onSelected)="onSelected($event)" (onShowChapter)="onShowChapter($event)"
+     (onPagingChange)="onPagingChange($event)"></app-table-mathdesign>
+</div>
+</p-panel>
+<p-dialog [(visible)]="mathdesignDialog" [style]="{width: '450px', position:'relative'}" header="Chi tiết Phân Môn" [maximizable]="true" [baseZIndex]="10000"
+[draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+      <div class="p-grid p-fluid">
+        <div class="p-col-12">
+          <div class="p-field" [formGroup]="form">
+              <label for="classname">Tên Phân Môn</label>
+              <input type="text" pInputText [class.ng-invalid]="isExistedmathDesignName" formControlName="mathDesignName" id="mathDesignName" [(ngModel)]="mathdesign.mathDesignName" required autofocus />
+              <small class="p-invalid" *ngIf="(submitted && !mathdesign.mathDesignName) || ((f.mathDesignName.touched || f.mathDesignName.dirty || submitted) && f.mathDesignName.errors?.required)
+              ">Tên Phân Môn là bắt buộc</small>
+              <small class="p-invalid"
+                *ngIf="isExistedmathDesignName">
+                Tên Phân Môn đã tồn tại
+              </small>
+            </div>
+        </div>
+        <div class="p-col-12" >
+            <div class="p-field">
+                <p-dropdown  [style]="{width:'400px',position:'absolute'}"  [options]="majors" [(ngModel)]="major" placeholder="Chọn Môn" optionLabel="majorname"
+                [showClear]="true"></p-dropdown>
+                <small class="p-invalid" *ngIf="submitted && !major">
+                  Chọn Môn là bắt buộc
+                </small>
+              </div>
+          </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveMathDesign()" *ngIf="!isEditing"></button>
+        <button pButton pRipple label="Cập Nhật" icon="pi pi-check" class="p-button-text" (click)="updateMathDesign()" *ngIf="isEditing"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+

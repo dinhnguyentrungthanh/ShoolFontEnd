@@ -1,0 +1,63 @@
+<p-panel #panel1 header="Thông tin Kiến Thức">
+  <div class="p-grid p-fluid">
+    <div class="p-col-2">Khối:</div>
+    <div class="p-col-4" [formGroup]="form">
+      <p-dropdown [options]="blocks" formControlName="block" optionLabel="blockname" (onChange)="changeBlock()"
+        defaultLabel="Chọn Khối" [(ngModel)]="selectedBlock">
+      </p-dropdown>
+      <small class="p-invalid" *ngIf="submitted && !selectedBlock">Chương là bắt buộc</small>
+    </div>
+    <div class="p-col-2">Phân Môn:</div>
+    <div class="p-col-4" [formGroup]="form">
+      <p-dropdown [options]="mathDesigns" optionLabel="mathDesignName" (onChange)="changeMathDesign()"
+        formControlName="mathDesign" defaultLabel="Chọn Phân Môn" [(ngModel)]="selectedMathDesign"></p-dropdown>
+      <small class="p-invalid" *ngIf="submitted && !selectedMathDesign">Phân Môn là bắt buộc</small>
+    </div>
+    <div class="p-col-2">Chương:</div>
+    <div class="p-col-4" [formGroup]="form">
+      <p-dropdown [options]="chapters" optionLabel="chaptername" defaultLabel="Chọn chương" formControlName="chapter"
+        [(ngModel)]="selectedChapter"></p-dropdown>
+      <small class="p-invalid" *ngIf="submitted && !selectedChapter">Chương là bắt buộc</small>
+    </div>
+    <div class="p-col-2">Mã kiến thức:</div>
+    <div class="p-col-4">
+      <input placeholder="Mã kiến thức" value="{{knowledgeId}}" class="p-inputtext p-component" disabled>
+    </div>
+    <div class="p-col-2">Tiêu Đề:</div>
+    <div class="p-col-10" [formGroup]="form">
+      <input placeholder="Tiêu đề" formControlName="knowledgeName" [(ngModel)]="knowledge.knowledgeName"
+        class="p-inputtext p-component">
+      <small class="p-invalid" *ngIf="(submitted && !knowledge.knowledgeName) || ((f.knowledgeName.touched || f.knowledgeName.dirty || submitted) && f.knowledgeName.errors?.required)
+      ">Tiêu đề là bắt buộc</small>
+    </div>
+    <div class="p-col-2">Đường dẫn SEO:</div>
+    <div class="p-col-10">
+      <input placeholder="Mã kiến thức" value="{{knowledge.url}}" class="p-inputtext p-component" disabled>
+    </div>
+    <div class="p-col-2">Nội dung Lý thuyết:</div>
+    <div class="p-col-10" [formGroup]="form">
+      <ckeditor [ngModel]="knowledge.contents" formControlName="contents" [config]="toolBar" [editor]="Editor">
+      </ckeditor>
+      <small class="p-invalid" *ngIf="(submitted && !knowledge.contents) || ((f.contents.touched || f.contents.dirty || submitted) && f.contents.errors?.required)
+              ">Nội dung Lý thuyết là bắt buộc</small>
+    </div>
+    <div class="p-col-2"></div>
+    <div class="p-col-10 p-jc-end p-ai-end">
+      <div class="p-d-inline-block  p-mr-2">
+        <button type="button" pButton pRipple class="p-button-raised p-button-success" icon="pi pi-save"
+          [loading]="loadingSaveBtn" (click)="saveKnowledge()" label="Cập Nhật"></button>
+      </div>
+      <div class="p-d-inline-block  p-mr-2">
+        <button type="button" pButton pRipple label="Mặc định" icon="pi pi-refresh"
+        [loading]="loadingDefaultBtn" class="p-button-raised p-button-warning" (click)="onDefault()"></button>
+      </div>
+      <div class="p-d-inline-block">
+        <button type="button" [routerLink]="['/admin/knowledge']" pButton pRipple label="Trở về" icon="pi pi-arrow-left"
+          class="p-button-raised p-button-danger"></button>
+      </div>
+    </div>
+  </div>
+</p-panel>
+<p-panel header="Danh Sách Câu Hỏi">
+  <app-review-question [knowledgeId]="knowledgeId"></app-review-question>
+</p-panel>

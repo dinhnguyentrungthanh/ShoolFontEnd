@@ -1,0 +1,32 @@
+<div class="menubar_left">
+    <a class="logo" routerLink= "/admin/dashboard">
+    THCS Trần Phú
+    </a>
+    <a class="fixed-toggle-sidebar p-shadow-6" (click)="toggleOpenCloseMenu()">
+        <i class="pi pi-chevron-left transition-rotate" [class.transform-rotate-180]="!expandMenu"></i>
+    </a>
+</div>
+<div class="menubar_right-mobile">
+    <button pButton (click)="toggleDisplayMenubarMobile()" label="show" type="button" icon="pi pi-ellipsis-v" iconPos="left" class="p-button-rounded p-button-text p-ripple p-button p-component p-button-icon-only p-mr-3" style="color:#fff"></button>
+</div>
+<div class="menubar_right" [ngClass]="{'p-d-flex': displayMenuMobile}">
+    <p-megaMenu [model]="items" styleClass="menubar_mega"></p-megaMenu>
+    <div class="menubar_right-end">
+      <button pButton type="button" icon="pi pi-search" iconPos="left" class="p-button-rounded p-button-text p-ripple p-button p-component p-button-icon-only p-mr-3" style="color:#fff"></button>
+      <!-- <button pButton type="button" iconPos="left" class="p-button-rounded p-button-text p-ripple p-button p-component p-button-icon-only p-mr-3" style="color:#fff" (click)="noti.toggle($event)"><i class="pi pi-bell" pBadge value="2"  severity="danger"></i></button>
+      <p-overlayPanel #noti [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [dismissable]="true">
+        <ng-template pTemplate>
+            Content
+        </ng-template>
+      </p-overlayPanel> -->
+        <button pButton type="button" iconPos="left" class="p-button-rounded p-button-text p-ripple p-button p-component p-button-icon-only p-mr-3" style="color:#fff" (click)="user.toggle($event)">
+          <p-avatar image="assets/media/avatar/{{authService.getAvatar()}}" shape="circle" size="large"></p-avatar>
+        </button>
+        <p-menu #user [popup]="true" [model]="items1"></p-menu>
+        <!-- <p-overlayPanel #user [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [dismissable]="true">
+          <ng-template pTemplate>
+              <a onclick="logout()">Đăng Xuất</a>
+          </ng-template>
+      </p-overlayPanel> -->
+    </div>
+</div>

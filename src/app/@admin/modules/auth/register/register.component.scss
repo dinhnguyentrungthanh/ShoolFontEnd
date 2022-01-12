@@ -1,0 +1,41 @@
+.filter-centre {
+  width: 60%;
+  position:absolute;
+  transform: translate(-50%,-50%);
+  background: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3));
+  border-radius: 10px;
+  box-shadow: 7px 7px 60px #000;
+  top: 50%;
+  left: 50%;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+#button button {
+  min-height: 50px;
+  font-size: large;
+}
+.w-265 {
+  width: 265px;
+}
+section{
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background:linear-gradient(to bottom, rgba( 0,0,0,0.10) 100%,rgba( 0,0,0,0.10) 100%), url(/assets/images/support_ut_math.jpg);
+  background-size: cover;
+  background-position: center center;
+}
+.footer-button-regis{
+  margin-bottom: 1em;
+}
+h1{
+  margin-bottom: -0.6em;
+  color: lightgoldenrodyellow;
+}
+label{
+  color: lightgoldenrodyellow;
+}
+.p-error{
+  color: red;
+  margin-top: -1em;
+}

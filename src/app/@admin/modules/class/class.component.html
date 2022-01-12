@@ -1,0 +1,54 @@
+<p-panel header="Danh Sách Lớp">
+    <div class="card">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Tạo Mới" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+                <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedClasses()" [disabled]="!selectedClasses || !selectedClasses.length"></button>
+            </ng-template>
+        </p-toolbar>
+        <app-table-class
+        [classes]="classes"  [rows]="rows"
+        [totalRecords]="totalRecords" [loading]="loading"
+        (onEdit)="editClass($event)" (onDelete)="deleteClass($event)"
+        (onSelected)="onSelected($event)"
+        (onPagingChange)="onPagingChange($event)"></app-table-class>
+    </div>
+</p-panel>
+
+<p-dialog [(visible)]="classDialog" [style]="{width: '450px', position:'relative'}" header="Chi tiết lớp" [maximizable]="true" [baseZIndex]="10000"
+[draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+      <div class="p-grid p-fluid">
+        <div class="p-col-12">
+          <div class="p-field" [formGroup]="form">
+              <label for="classname">Tên Lớp</label>
+              <input type="text" pInputText [class.ng-invalid]="isExistedClassname" formControlName="classname" id="classname" [(ngModel)]="class.classname" required autofocus />
+              <small class="p-invalid" *ngIf="(submitted && !class.classname) || ((f.classname.touched || f.classname.dirty || submitted) && f.classname.errors?.required)
+              ">Tên Lớp là bắt buộc</small>
+              <small class="p-invalid"
+                *ngIf="isExistedClassname">
+                Tên lớp đã tồn tại
+              </small>
+            </div>
+        </div>
+        <div class="p-col-12" >
+            <div class="p-field">
+                <label for="classname">Tên Khối</label>
+                <p-dropdown  [style]="{width:'400px',position:'absolute'}"  [options]="blocks" [(ngModel)]="block" placeholder="Chọn Khối" optionLabel="blockname"
+                [showClear]="true"></p-dropdown>
+                <small class="p-invalid" *ngIf="!block">
+                  (Chọn khối là bắt buộc)
+                </small>
+              </div>
+          </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveClass()" *ngIf="!isEditing"></button>
+        <button pButton pRipple label="Cập Nhật" icon="pi pi-check" class="p-button-text" (click)="updateClass()" *ngIf="isEditing"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

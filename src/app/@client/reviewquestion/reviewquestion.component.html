@@ -1,0 +1,82 @@
+<div class="card">
+    <h2 style="text-align: center;"> CÂU HỎI ÔN TẬP</h2>
+    <div class="p-grid" style="min-height: 650px;border: 1px solid gray; border-radius: 15px;">
+      <div class="p-col-12" style="min-height: 250px;border-bottom:1px solid gray ;">
+        <div class="p-grid">
+          <div class="p-col-12" style="min-height: 50px;">
+            <div class="p-grid">
+              <div class="p-col-1">
+                <button pButton type="button" icon="pi pi-chevron-left" iconPos="left"></button>
+              </div>
+              <div class="p-col-10"></div>
+              <div class="p-col-1">
+                <button pButton type="button" icon="pi pi-chevron-right" iconPos="left"></button>
+              </div>
+            </div>
+          </div>
+          <div class="p-col-12">
+
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12" style="min-height: 400px;">
+        <div class="p-grid">
+          <div class="p-col-12" style="min-height: 50px">
+            <div class="p-grid" style="min-height: 50px ">
+              <div class="p-col-12 p-d-flex p-jc-center">
+                <img src="assets/images/oclock.jpg" style="width: 64px ;cursor: pointer;">
+                <div style="padding-top: 1em;">
+                  <countdown #cd style="font-size: 1.5em;"
+                    [config]="{ leftTime: 100,demand: true, format: 'm:s', prettyText: prettyText }">
+                  </countdown>
+                </div>
+              </div>
+            </div>
+            <div class="p-col-12" style="min-height: 300px">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <p-tabView>
+      <p-tabPanel header="Phản hồi ý kiến">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <textarea style="margin-right: 2em;" rows="5" cols="70" pInputTextarea [autoResize]="true"></textarea>
+            <p-button styleClass="p-button-outlined">
+              <img alt="logo" src="assets/images/fly.jpg" style="width: 2rem;border-radius: 100px" />
+              <span class="p-ml-2 p-text-bold">Đăng</span>
+            </p-button>
+
+          </div>
+          <div class="p-col-12" style="border-top: 1px solid powderblue;border-radius: 1em;">
+            <div class="p-grid">
+              <div class="p-col-3">
+                <b> tên người bình luận</b>
+              </div>
+              <div class="p-col-9">
+                <label> nội dung bình luận </label>
+              </div>
+              <ng-template>
+                <div class="p-col-4">
+                  <b></b>
+                </div>
+                <div class="p-col-8">
+                  <label></label>
+                </div>
+                <ng-template>
+                  <div class="p-col-1"></div>
+                  <div class="p-col-3">
+                    <b></b>
+                  </div>
+                  <div class="p-col-8">
+                    <label></label>
+                  </div>
+                </ng-template>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView> -->
+  </div>

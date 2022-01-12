@@ -1,0 +1,42 @@
+<p-panel header="CHI TIẾT BÀI KIỂM TRA">
+  <p-table #dt [value]="testResultMap" [rows]="10"
+    [globalFilterFields]="['stt','testTypeName', 'createDate', 'time', 'point']" [rowHover]="true" dataKey="id"
+    [paginator]="true" [loading]="loading"
+    currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} bản ghi" [showCurrentPageReport]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="stt" [ngStyle]="{'max-width': '100px'}">
+          STT <p-sortIcon field="stt"></p-sortIcon>
+        </th>
+        <th pSortableColumn="testTypeName" colspan="2" *ngIf="dbType !== type.MULTI_CHOICE">
+          Câu hỏi <p-sortIcon field="testTypeName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="testTypeName" *ngIf="dbType === type.MULTI_CHOICE">
+          Câu hỏi <p-sortIcon field="testTypeName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="point" *ngIf="dbType === type.MULTI_CHOICE" [ngStyle]="{'max-width': '100px'}">Điểm</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+      <tr>
+        <td [ngStyle]="{'max-width': '100px'}">{{ rowIndex + 1 }}</td>
+        <td [innerHTML]="i.question | safeHtml" colspan="2" *ngIf="dbType !== type.MULTI_CHOICE"></td>
+        <td [innerHTML]="i.question | safeHtml" *ngIf="dbType === type.MULTI_CHOICE"></td>
+        <td *ngIf="dbType === type.MULTI_CHOICE">
+          <p-badge value="{{i.answer === i.answerCorrect ? (10 / testResultMap.length).toFixed(2) : 0}}"
+            severity="{{i.answer === i.answerCorrect ? 'info' : 'danger'}}" styleClass="p-mr-2"></p-badge>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer" let-columns>
+      <tr>
+      <td [ngStyle]="{'textAlign': 'right', 'color': 'red', 'fontWeight': 'bold'}" colspan="2" *ngIf="dbType !== type.MULTI_CHOICE">ĐIỂM TỔNG KẾT</td>
+      <td [ngStyle]="{'textAlign': 'right', 'color': 'red', 'fontWeight': 'bold'}" colspan="2" *ngIf="dbType === type.MULTI_CHOICE">ĐIỂM TỔNG KẾT</td>
+      <td [ngStyle]="{'max-width': '100px'}" *ngIf="point" [ngStyle]="{'max-width': '100px'}">
+        <p-badge *ngIf="point.completed" value="{{point.point}}" severity="primary" styleClass="p-mr-2"></p-badge>
+        <p-badge *ngIf="!point.completed" severity="success" value="GV đang chấm điểm..." styleClass="p-mr-2"></p-badge>
+      </td>
+      </tr>
+  </ng-template>
+  </p-table>
+</p-panel>

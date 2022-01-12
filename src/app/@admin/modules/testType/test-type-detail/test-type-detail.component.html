@@ -1,0 +1,21 @@
+<div class="mt" style="margin-bottom: 10px;height: auto;text-align: center;" >
+  <p-panel header="THÔNG TIN BÀI KIỂM TRA" >
+     <div class="p-fluid">
+      <div class="p-col-12">
+        <p> Mã Bài Kiểm Tra: <b style="color: red;">{{testType?.id}}</b></p>
+        <p> Dạng Bài Kiểm Tra:
+        <p-badge *ngIf="testType?.type === type.MULTI_CHOICE" value="Trắc Nghiệm" styleClass="p-mr-2" severity="success"></p-badge>
+        <p-badge *ngIf="testType?.type === type.ESSAY" value="Tự Luận" styleClass="p-mr-2" severity="info"></p-badge>
+      </p>
+      <p> Tên Bài Kiểm Tra: <b style="color: red;">{{testType?.testTypeName}}</b></p>
+      <p> Thời Gian : <p-badge value="{{testType?.time}} giây" styleClass="p-mr-2" severity="danger"></p-badge></p>
+      <p> Người Tạo : {{testType?.createdBy || 'admin'}}</p>
+      <p> Ngày Tạo : <p-badge value="{{testType?.createdDate | date : 'dd/MM/yyyy'}}" styleClass="p-mr-2" severity="info"></p-badge></p>
+      </div>
+     </div>
+  </p-panel>
+</div>
+
+<app-test [testTypeId]="testTypeId" [eTestType]="eTestType"></app-test>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

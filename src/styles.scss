@@ -1,0 +1,286 @@
+/* You can add global styles to this file, and also import other style files */
+$light-teal: #009688;
+
+:root {
+  --width-sidebar: 224px;
+  --height-menubar: 60px;
+  --transition-opacity: 300ms;
+  --transition-rotate: 300ms;
+  --base-color: #515c66;
+  --min_hight-content: calc(100vh - 60px);
+  --scroll-sidebar: calc(100vh - 60px);
+  --client-max-width: 1300px;
+}
+html,
+body {
+  min-height: auto;
+  margin: 0;
+  background-color: #e1ecf4;
+}
+
+body,
+* {
+  font-family: "Darker Grotesque", sans-serif;
+}
+
+.transition-display {
+  transition: var(--transition-opacity) ease-in;
+}
+.transition-d {
+  transition: var(--transition-opacity) ease-out;
+}
+
+.transition-opacity {
+  transition: opacity var(--transition-opacity) ease-out;
+}
+
+.transition-rotate {
+  transition: var(--transition-rotate);
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-1 {
+  opacity: 1;
+}
+
+.transform-rotate-180 {
+  transform: rotate(-180deg);
+}
+
+.sidebar-right {
+  top: var(--height-menubar) !important;
+}
+
+.scrollPanel-left {
+  height: var(--scroll-sidebar) !important;
+}
+
+@media (max-width: 992px) {
+  .sidebar-right {
+    top: calc(var(--height-menubar) + 128px) !important;
+  }
+}
+
+.menubar_mega {
+  padding: 0 !important;
+  border: 0 !important;
+  height: var(--height-menubar);
+
+  & > ul {
+    height: var(--height-menubar);
+  }
+
+  a > .p-menuitem-text {
+    color: #fff !important;
+    font-weight: 800;
+  }
+  span.pi {
+    color: #fff !important;
+    font-size: 1.3rem !important;
+  }
+
+  .p-menuitem-link.p-ripple {
+    padding: 0.8rem !important;
+  }
+
+  .p-megamenu-panel .p-menuitem-text {
+    color: var(--base-color) !important;
+    font-weight: 500;
+  }
+}
+.p-panel .p-panel-header {
+  border: 1px solid #e0e0e0;
+  margin-top: 10px;
+}
+
+.p-invalid {
+  color: red;
+  font-size: 1rem;
+}
+
+.p-button,
+.p-datatable,
+.p-checkbox-box,
+.p-paginator-current {
+  position: static !important;
+}
+
+.p-checkbox-box.p-highlight > span {
+  position: relative !important;
+}
+
+.p-checkbox-box.p-highlight {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.p-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+  width: 500px;
+  padding: 50px 30px;
+  border-radius: 10px;
+  box-shadow: 7px 7px 60px #000;
+}
+
+.p-inputtext {
+  padding: 0.6rem;
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s,
+    box-shadow 0.2s, background-size 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 4px;
+}
+.p-card .p-card-content {
+  padding: 0;
+}
+
+thead tr {
+  a {
+    text-decoration: none !important;
+  }
+  th {
+    font-weight: 700 !important;
+    text-transform: uppercase;
+  }
+}
+
+.container-client {
+  max-width: var(--client-max-width);
+  margin: auto;
+}
+
+@media only screen and (max-width: 997px) {
+  .container-client {
+    width: 100%;
+  }
+}
+
+.p-menubar {
+  border: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.content .ck.ck-reset_all.ck-widget__type-around {
+  display: none !important;
+}
+
+.p-panel {
+  margin-bottom: 3%;
+  border-radius: 4px;
+  box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+}
+
+figure.image {
+  margin: auto;
+  width: 30%;
+  img {
+    width: 100%;
+  }
+}
+.ck-media__wrapper {
+  margin: 0 auto;
+  width: 75%;
+}
+
+.state {
+  width: 108px;
+  position: absolute;
+  top: 0;
+  right: 15px;
+
+  p {
+    line-height: 47px;
+    height: 57px;
+    padding: 10px 0 0;
+    white-space: nowrap;
+    clear: both;
+  }
+
+  .last-row {
+    position: absolute;
+    width: 114px;
+    top: 426px;
+    left: 0;
+  }
+}
+
+.p-dialog-content {
+  overflow-x: hidden !important;
+}
+
+.p-panel .p-panel-content {
+  padding-top: 1rem !important;
+}
+
+:host ::ng-deep .custom-spinner{
+  animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
+}
+
+@keyframes custom-progress-spinner-color {
+  100%,
+  0% {
+      stroke: #16697A;
+  }
+  40% {
+      stroke: #489FB5;
+  }
+  66% {
+      stroke: #82C0CC;
+  }
+  80%,
+  90% {
+      stroke: #FFA62B;
+  }
+}
+
+@keyframes custom-progress-spinner-dash {
+  0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+  }
+  50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+  }
+  100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+  }
+}
+
+ol li{
+  line-height: 1.5rem;
+  font-size: 1.2rem;
+
+  a{
+    font-size: 1.2rem;
+  }
+}
+
+.wrs_tickContainer{
+  display: none !important;
+}
+
+fieldset figure.image div.ck.ck-reset_all.ck-widget__resizer, table figure.image div.ck.ck-reset_all.ck-widget__resizer, div.question figure.image div.ck.ck-reset_all.ck-widget__resizer{
+  display: none !important;
+}
+
+.answer .test-item label figure{
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  margin: 10px !important;
+}

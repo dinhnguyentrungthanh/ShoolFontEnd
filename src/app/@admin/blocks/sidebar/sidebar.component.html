@@ -1,0 +1,18 @@
+<p-scrollPanel [style]="{width: '100%', height: '200px'}" styleClass="scrollPanel-left">
+  <div class="sidebar_menu">
+    <div class="category_menu" *ngFor="let menu of items">
+      <ng-container *ngIf="menu.levels.includes(level)">
+        {{menu.parent}}
+        <div class="category_menu-items">
+          <ng-container *ngFor="let m of menu.items">
+            <a *ngIf="!m.levels || m.levels.includes(level)" [routerLink]="m.path" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact:false}" class="menu-item">
+              <i [class]="m.icon"></i>
+              {{m.label}}
+            </a>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</p-scrollPanel>

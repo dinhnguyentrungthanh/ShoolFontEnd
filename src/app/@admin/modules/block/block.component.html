@@ -1,0 +1,44 @@
+<p-panel header="Danh Sách Khối">
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Tạo Mới" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+            <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedBlocks()" [disabled]="!selectedBlocks || selectedBlocks.length === 0"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <app-table-block
+    [blocks]="blocks"  [rows]="rows"
+    [totalRecords]="totalRecords" [loading]="loading"
+    (onEdit)="editBlock($event)" (onDelete)="deleteBlock($event)"
+    (onSelected)="onSelected($event)"
+    (onPagingChange)="onPagingChange($event)"></app-table-block>
+</div>
+</p-panel>
+<p-dialog [(visible)]="blockDialog" [style]="{width: '450px'}" header="Chi tiết khối" [modal]="true">
+    <ng-template pTemplate="content">
+      <div class="p-grid p-fluid">
+        <div class="p-col-12">
+          <div class="p-field" [formGroup]="form">
+              <label for="blockname">Tên Khối</label>
+              <input type="text" pInputText [class.ng-invalid]="isExistedBlockname" formControlName="blockname" id="blockname" [(ngModel)]="block.blockname" required autofocus />
+              <small class="p-invalid" *ngIf="(submitted && !block.blockname) || ((f.blockname.touched || f.blockname.dirty || submitted) && f.blockname.errors?.required)
+              ">Tên Khối là bắt buộc</small>
+              <small class="p-invalid"
+                *ngIf="isExistedBlockname">
+                Tên khối đã tồn tại
+              </small>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveBlock()" *ngIf="!isEditing"></button>
+        <button pButton pRipple label="Cập Nhật" icon="pi pi-check" class="p-button-text" (click)="updateBlock()" *ngIf="isEditing"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+

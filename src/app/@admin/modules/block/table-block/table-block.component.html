@@ -1,0 +1,53 @@
+<p-table #dt [value]="blocks" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [loading]="loading"
+  [(selection)]="selectedBlocks" [rowHover]="true" dataKey="id" (onRowSelect)="onRowSelectOrUnSelect()"
+  (onRowUnselect)="onRowSelectOrUnSelect()" (onHeaderCheckboxToggle)="onRowSelectOrUnSelect()"
+  currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} bản ghi" [showCurrentPageReport]="true">
+  <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+          <h2 class="p-m-0">QUẢN LÍ KHỐI</h2>
+          <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($event.target?.value, 'contains')" placeholder="Tìm kiếm..." />
+          </span>
+      </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+      <tr>
+          <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th pSortableColumn="blockname">Tên Khối <p-sortIcon field="blockname"></p-sortIcon></th>
+          <th pSortableColumn="majors">Môn Học <p-sortIcon field="majors"></p-sortIcon></th>
+          <th pSortableColumn="createdBy">Lớp <p-sortIcon field="createdBy"></p-sortIcon></th>
+          <th pSortableColumn="createdDate">Ngày Tạo<p-sortIcon field="createdDate"></p-sortIcon></th>
+          <th></th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-block>
+      <tr>
+          <td>
+              <p-tableCheckbox [value]="block"></p-tableCheckbox>
+          </td>
+          <td><a pTooltip="Xem chi tiết" tooltipPosition="top" style="text-decoration: none;color: #8a2be2;" [routerLink]="[block.id]">{{block.blockname}}</a></td>
+          <td *ngIf="!block.majors || block.majors.length == 0" style="color: red; font-weight: bold;">Chưa có Môn Học</td>
+          <td *ngIf="block.majors && block.majors.length > 0"style="color: blue; font-weight: bold;">
+            <p-badge [value]="block.majors.length" severity="info" styleClass="p-mr-2"></p-badge> hoạt động
+          </td>
+          <td *ngIf="!block.classes || block.classes.length == 0" style="color: red; font-weight: bold;">Chưa có Lớp</td>
+          <td *ngIf="block.classes && block.classes.length > 0"style="color: blue; font-weight: bold;">
+            <p-badge [value]="block.classes.length" severity="info" styleClass="p-mr-2"></p-badge> hoạt động
+          </td>
+          <td>
+            <p-badge value="{{block.createdDate | date : 'dd/MM/yyyy'}}" styleClass="p-mr-2"></p-badge></td>
+          <td>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="onEditBlock(block)" pTooltip="Cập Nhật" tooltipPosition="top"></button>
+              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"(click)="onDeleteBlock(block)" pTooltip="Xóa" tooltipPosition="top"></button>
+          </td>
+      </tr>
+  </ng-template>
+</p-table>
+
+<p-paginator [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="rowsPerPageOptions" (onPageChange)="onPaginate($event)"></p-paginator>
+<div class="p-d-flex p-ai-center p-jc-between">
+    Hiển Thị {{totalRecords}} trên {{rows}}
+</div>

@@ -1,0 +1,30 @@
+<div class=" p-grid">
+    <div class="p-col-3">
+        <img class="gif" src="assets/images/gif_animation.gif">
+    </div>
+    <div class="p-col-6">
+        <div class="p-field">
+            <h1 style="text-align: center;">Đăng nhập tài khoản của bạn</h1>
+        </div>
+        <p-messages [(value)]="errMsg" [enableService]="false"></p-messages>
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="username1" class="p-mr-2">Tài khoản</label>
+                <input id="username1" type="username" aria-describedby="username1-help" pInputText
+                    [(ngModel)]="username" />
+            </div>
+            <div class="p-field">
+                <label class="p-mr-2">Mật khẩu</label>
+                <input type="password" aria-describedby="password" pInputText [(ngModel)]="password" />
+            </div>
+            <div class="footer-button-login">
+                <button pButton type="button" label="Đăng Nhập" class="p-button-info p-col-3 p-mr-4 p-text-bold"
+                [loading]="loading"  (click)="login()"></button>
+            </div>
+
+        </div>
+    </div>
+    <div class="p-col-3">
+        <img class="gif" src="assets/images/gif_animation.gif">
+    </div>
+</div>

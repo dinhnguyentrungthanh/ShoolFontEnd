@@ -1,0 +1,48 @@
+.filter-centre {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 380px;
+  padding: 50px 30px;
+  border-radius: 10px;
+}
+input {
+  width: 310px;
+}
+
+.header-1 {
+  background-color: #0D51A5;
+  color: white;
+  height: 30px;
+}
+.footer-button-login{
+  text-align: center;
+}
+section{
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background:linear-gradient(to bottom, rgba( 0,0,0,0.10) 100%,rgba( 0,0,0,0.10) 100%), url(/assets/images/support_ut_math.jpg);
+  background-size: cover;
+  background-position: center center;
+
+}
+h3{
+  font-size: 2em;
+  text-align: center;
+  animation: color-change 4s infinite
+}
+@keyframes color-change {
+  0% { color: lightgoldenrodyellow; }
+  25% { color: burlywood; }
+  50% { color:pink; }
+  100% { color: cyan; }
+}
+label{
+  text-align: center;
+  color: lightgoldenrodyellow;
+}
+.p-error{
+color: red;
+}

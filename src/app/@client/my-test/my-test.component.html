@@ -1,0 +1,49 @@
+<p-panel header="DANH SÁCH BÀI KIỂM TRA">
+  <p-table #dt [value]="points" [rows]="10" [globalFilterFields]="['stt','testTypeName', 'createDate', 'time', 'point']"
+  [rowHover]="true" dataKey="id" [paginator]="true" [loading]="loading"
+  currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} bản ghi" [showCurrentPageReport]="true">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="stt">
+        STT <p-sortIcon field="stt"></p-sortIcon>
+      </th>
+      <th pSortableColumn="testTypeName">
+        Tên Bài KT <p-sortIcon field="testTypeName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="type">
+        Loại Bài KT <p-sortIcon field="type"></p-sortIcon>
+      </th>
+      <th pSortableColumn="createDate">
+        Thời Gian Làm Bài <p-sortIcon field="createDate"></p-sortIcon>
+      </th>
+      <th pSortableColumn="point">Điểm</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+    <tr>
+      <td>{{ rowIndex + 1 }}</td>
+      <td><a [routerLink]="['/my-test', i.id]">{{ i.testType.testTypeName | stringHiden:30}}</a></td>
+      <td>
+        <p-badge *ngIf="i.testType.type === type.MULTI_CHOICE" value="Trắc Nghiệm" styleClass="p-mr-2" severity="success"></p-badge>
+        <p-badge *ngIf="i.testType.type === type.ESSAY" value="Tự Luận" styleClass="p-mr-2" severity="info"></p-badge>
+      </td>
+      <td>
+        <p-badge value="{{i.modifiedDate  | date: 'HH:ss dd/MM/yyyy'}}" styleClass="p-mr-2"></p-badge>
+      </td>
+      <td *ngIf="i.testType.type === type.ESSAY">
+        <p-badge *ngIf="i.completed && i.point < 5" value="{{i.point}}" severity="danger" styleClass="p-mr-2"></p-badge>
+        <p-badge *ngIf="i.completed && i.point >= 5 && i.point < 6.5" severity="warn" value="{{i.point}}" styleClass="p-mr-2"></p-badge>
+        <p-badge *ngIf="i.completed && i.point >= 6.5 && i.point < 8" severity="info" value="{{i.point}}" styleClass="p-mr-2"></p-badge>
+        <p-badge *ngIf="i.completed && i.point >= 8 && i.point <= 10" severity="success" value="{{i.point}}" styleClass="p-mr-2"></p-badge>
+        <p-badge *ngIf="!i.completed && i.point == 0" severity="success" value="GV đang chấm điểm..." styleClass="p-mr-2"></p-badge>
+      </td>
+       <td *ngIf="i.testType.type === type.MULTI_CHOICE">
+        <p-badge *ngIf="i.completed && i.point < 5" value="{{i.point}}" severity="danger" styleClass="p-mr-2"></p-badge>
+        <p-badge *ngIf="i.completed && i.point >= 5 && i.point < 6.5" severity="warn" value="{{i.point}}" styleClass="p-mr-2"></p-badge>
+        <p-badge *ngIf="i.completed && i.point >= 6.5 && i.point < 8" severity="info" value="{{i.point}}" styleClass="p-mr-2"></p-badge>
+        <p-badge *ngIf="i.completed && i.point >= 8 && i.point <= 10" severity="success" value="{{i.point}}" styleClass="p-mr-2"></p-badge>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+</p-panel>

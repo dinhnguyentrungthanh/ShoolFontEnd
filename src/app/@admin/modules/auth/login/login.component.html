@@ -1,0 +1,23 @@
+<section>
+<div class="filter-centre">
+  <p-card>
+    <ng-template pTemplate="header">
+      <h3 class="p-mb-2 p-ml-2">Smart School Login</h3>
+    </ng-template>
+    <p-messages [(value)]="errMsg" [enableService]="false"></p-messages>
+    <div class="p-field">
+      <label for="username1" class="p-mr-2">Tài khoản</label>
+      <input id="username1" type="username" aria-describedby="username1-help" pInputText [(ngModel)]="username"/>
+    </div>
+    <label class="p-mr-2">Mật khẩu</label>
+    <input type="password" aria-describedby="password" pInputText [(ngModel)]="password"/>
+    <br/>
+    <ng-template pTemplate="footer" class="p-align-center ">
+      <div class="footer-button-login">
+        <button pButton type="button" label="Đăng nhập" [loading]="loading" (click)="login()" class="p-button-info"></button>
+        <!-- <button pButton type="button" label="Đăng ký" (click)="register()" class="p-button-info p-ml-3"></button> -->
+      </div>
+    </ng-template>
+  </p-card>
+</div>
+</section>

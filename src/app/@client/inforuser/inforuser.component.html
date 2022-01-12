@@ -1,0 +1,164 @@
+<div class=" p-grid">
+  <div class="p-col-3">
+    <img class="gif" src="assets/images/gif_animation.gif">
+  </div>
+  <div class="p-col-6">
+    <div class="p-grid p-fluid">
+      <div class="p-col-12">
+        <p-messages [(value)]="errMsgUpdate" [enableService]="false"></p-messages>
+        <p-messages [(value)]="errMsgAvatar" [enableService]="false"></p-messages>
+        <p-messages [(value)]="errMsgChangePs" [enableService]="false" (escape)="false"></p-messages>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="username">Tài khoản </label>
+          <input id="disabled-input" type="text" formControlName="username" pInputText readonly="true"
+            [(ngModel)]="student.username" />
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field" [formGroup]="form">
+          <label for="phone">Điện Thoại</label>
+          <input type="text" pInputText id="phone" formControlName="phone" [(ngModel)]="student.phone" required
+            autofocus />
+          <small class="p-invalid" *ngIf="submitted && !student.phone">Số Điện thoại là bắt buộc.</small>
+          <small class="p-invalid"
+            *ngIf="(f.phone.touched || f.phone.dirty || submitted) && f.phone.errors?.phoneNumberInvalid">
+            Số Điện thoại không hợp lệ
+          </small>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field" [formGroup]="form">
+          <label for="email">Email</label>
+          <input type="text" formControlName="email" pInputText id="email" [(ngModel)]="student.email" required
+            autofocus />
+          <small class="p-invalid" *ngIf="submitted && !student.email">Địa chỉ Email là bắt buộc.</small>
+          <small class="p-invalid"
+            *ngIf="(f.email.touched || f.email.dirty || submitted) && f.email.errors?.emailInvalid">
+            Địa chỉ Email không hợp lệ
+          </small>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field" [formGroup]="form">
+          <label for="fullname">Họ Và Tên</label>
+          <input type="text" formControlName="fullname" pInputText id="fullname" [(ngModel)]="student.fullname" required
+            autofocus />
+          <small class="p-invalid"
+            *ngIf="(f.fullname.touched || f.fullname.dirty || submitted) && f.fullname.errors?.required">
+            Họ và Tên là bắt buộc
+          </small><small class="p-invalid"
+            *ngIf="(f.fullname.touched || f.fullname.dirty || submitted) && f.fullname.errors?.minlength">
+            Họ và tên phải từ 5 đến 100
+          </small>
+          <small class="p-invalid"
+            *ngIf="(f.fullname.touched || f.fullname.dirty || submitted) && f.fullname.errors?.maxlength">
+            Họ và tên phải từ 5 đến 100
+          </small>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field">
+          <label for="gender">Giới Tính</label>
+          <p-dropdown [options]="genders" [(ngModel)]="student.gender" optionLabel="name" optionValue="code">
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field" [formGroup]="form">
+          <label for="address">Địa chỉ</label>
+          <input type="text" formControlName="address" pInputText id="address" [(ngModel)]="student.address" required
+            autofocus />
+          <small class="p-invalid"
+            *ngIf="(f.address.touched || f.address.dirty || submitted) && f.address.errors?.required">
+            Địa chỉ là bắt buộc
+          </small> <small class="p-invalid"
+            *ngIf="(f.address.touched || f.address.dirty || submitted) && f.address.errors?.minlength">
+            Địa chỉ phải từ 5 đến 100
+          </small>
+          <small class="p-invalid"
+            *ngIf="(f.address.touched || f.address.dirty || submitted) && f.address.errors?.maxlength">
+            Địa chỉ phải từ 5 đến 100
+          </small>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field" [formGroup]="form">
+          <label for="birthday">Ngày Sinh</label>
+          <p-calendar formControlName="birthday" [monthNavigator]="true" [yearNavigator]="true" yearRange="1960:2021"
+            inputId="birthday" [(ngModel)]="student.birthday" [touchUI]="true" [readonlyInput]="true"></p-calendar>
+          <small class="p-invalid"
+            *ngIf="(f.birthday.touched || f.birthday.dirty || submitted) && f.birthday.errors?.required">
+            Ngày Sinh là bắt buộc
+          </small>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-12">
+        <div class="p-field">
+          <label for="avatar">Hình ảnh</label>
+          <p-progressBar [class.p-d-none]="!isEditing" [value]="uploadProgress"></p-progressBar>
+          <div class="p-d-flex p-jc-center p-ai-center p-mt-2 avatar">
+            <p-avatar image="assets/media/avatar/{{student.avatar}}" [class.p-d-none]="!isEditing" styleClass="p-mr-2"
+              size="xlarge" shape="circle" (click)="fileUpload?.click()">
+              <i class="pi pi-upload"></i>
+            </p-avatar>
+            <input type="file" class="file-input" [class.p-d-none]="isEditing" [accept]="'image/*'"
+              (change)="saveAvatar($event)" #fileUpload >
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field">
+          <label for="avatar"></label>
+          <button style="border: 1px solid blueviolet;" pButton pRipple label="Cập Nhật" icon="pi pi-check"
+            class="p-button-text" (click)="updateStudent()"></button>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field">
+          <label for="avatar"></label>
+          <button style="border: 1px solid blueviolet;" pButton pRipple label="Đổi Mật Khẩu" icon="pi pi-key"
+            class="p-button-text" (click)="changePass()" ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-dialog [(visible)]="changePwsDialog" [style]="{width: '50vw'}" header="Thay Đổi Mật Khẩu" [modal]="true"
+    styleClass="p-fluid" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <p-messages [(value)]="errMsgChangePs" [enableService]="false" (escape)="false"></p-messages>
+    <ng-template pTemplate="content">
+      <div class="p-grid p-fluid">
+        <div class="p-col-12">
+          <div class="p-field" >
+            <label for="password">Mật Khẩu Cũ </label>
+            <p-password [(ngModel)]="changepw.oldPassword" [toggleMask]="true" [feedback] = "false"></p-password>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid p-fluid">
+        <div class="p-col-12">
+          <div class="p-field" >
+            <label for="password">Mật Khẩu Mới</label>
+            <p-password [(ngModel)]="changepw.newPassword" [toggleMask]="true"></p-password>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid p-fluid">
+        <div class="p-col-12">
+          <div class="p-field" >
+            <label for="password">Nhập Lại Mật Khẩu</label>
+            <p-password [(ngModel)]="rePassword" [toggleMask]="true" [feedback] = "false"></p-password>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button (click)="chanePws()" style="border: 1px solid blueviolet;" pButton pRipple label="Thay Đổi" icon="pi pi-check" class="p-button-text" *ngIf="isEditing"></button>
+    </ng-template>
+  </p-dialog>
+  <div class="p-col-3">
+    <img class="gif" src="assets/images/gif_animation.gif">
+  </div>
+</div>
+

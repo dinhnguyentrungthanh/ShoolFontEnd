@@ -1,0 +1,15 @@
+:host{
+    display: block;
+}
+
+.footer{
+    width: 100%;
+    min-height: 150px;
+    border-top: 3px solid white;
+    .profileschool{
+        text-align: center;
+    }
+    .personshool{
+        text-align: center;
+    }
+}

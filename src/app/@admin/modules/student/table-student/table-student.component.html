@@ -1,0 +1,63 @@
+
+<p-table #dt [value]="students" [rows]="10" [paginator]="isDynamic" [globalFilterFields]="['fullname','username', 'createdDate']" [loading]="loading"
+    [(selection)]="selectedStudents" [rowHover]="true" dataKey="id" (onRowSelect)="onselectOrUnSelect()"
+    (onRowUnselect)="onselectOrUnSelect()" (onHeaderCheckboxToggle)="onselectOrUnSelect()"
+    currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} bản ghi" [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            <h3 class="p-m-0">Danh sách Học Viên</h3>
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target?.value, 'contains')" placeholder="Tìm kiếm..." />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem" *ngIf="!isDynamic">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th style="width: 3rem" *ngIf="isDynamic">
+              No
+            </th>
+            <th pSortableColumn="avatar" style="width: 8rem">Hình Ảnh<p-sortIcon field="avatar"></p-sortIcon></th>
+            <th pSortableColumn="fullname">Họ Và Tên<p-sortIcon field="fullname"></p-sortIcon></th>
+            <th pSortableColumn="username">Tài Khoản <p-sortIcon field="username"></p-sortIcon></th>
+            <!-- <th pSortableColumn="phone">Số Điện Thoại<p-sortIcon field="phone"></p-sortIcon></th>
+            <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon></th> -->
+            <!-- <th pSortableColumn="createdBy" *ngIf="!isDynamic">Người Tạo <p-sortIcon field="createdBy"></p-sortIcon></th> -->
+            <th pSortableColumn="createdDate">Ngày Tạo<p-sortIcon field="createdDate"></p-sortIcon></th>
+            <th *ngIf="!isDynamic"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user let-rowIndex="rowIndex">
+        <tr>
+            <td *ngIf="!isDynamic">
+                <p-tableCheckbox [value]="user"></p-tableCheckbox>
+            </td>
+            <td *ngIf="isDynamic">
+              {{rowIndex + 1}}
+            </td>
+            <td style="width: 8rem"> <p-avatar image="assets/media/avatar/{{user.avatar}}" styleClass="p-mr-2" size="xlarge" shape="circle"></p-avatar></td>
+            <td style="color: blue; font-weight: bold; font-style: italic;" >
+              {{user.fullname}}</td>
+            <td><p-badge value="{{user.username}}" severity="success" styleClass="p-mr-2"></p-badge></td>
+            <!-- <td>{{user.phone}}</td>
+            <td>{{user.email}}</td> -->
+            <!-- <td *ngIf="!isDynamic">{{user.createdBy || 'admin'}}</td> -->
+            <td><p-badge value="{{user.createdDate | date : 'dd/MM/yyyy'}}" styleClass="p-mr-2"></p-badge></td>
+            <td *ngIf="!isDynamic">
+                <button pButton pRipple icon="pi pi-key" class="p-button-rounded p-button-info p-mr-2" pTooltip="Đổi Mật Khẩu" (click)="onChangePass(user)"></button>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" pTooltip="Chỉnh sửa" (click)="onEditUser(user)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" pTooltip="Xóa" (click)="onDeleteUser(user)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<div class="paginator" *ngIf="!isDynamic">
+  <p-paginator [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="rowsPerPageOptions" (onPageChange)="onPaginate($event)"></p-paginator>
+  <div class="p-d-flex p-ai-center p-jc-between">
+      Hiển Thị {{totalRecords}} trên {{rows}}
+  </div>
+</div>

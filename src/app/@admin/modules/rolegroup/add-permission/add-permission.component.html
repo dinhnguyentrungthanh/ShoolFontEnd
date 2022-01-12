@@ -1,0 +1,57 @@
+<p-panel header="Chỉnh Sửa Quyền Cho Người Dùng">
+  <div class="p-grid p-fluid">
+    <div class="p-col-4">
+      <div class="p-field">
+        <label for="gender">Danh Sách Giáo Viên</label>
+        <!-- <p-multiSelect [options]="teachers" [(ngModel)]="selectedTeachers" optionLabel="fullname" optionValue="id"
+          placeholder="Chọn Giáo Viên">
+        </p-multiSelect> -->
+        <p-dropdown [style]="{width:'100%',padding:'.5rem'}" [options]="teachers" (onChange)="onChangeTeacher()"
+        [(ngModel)]="selectedTeacher" [filter]="true" placeholder="Chọn Giáo Viên" optionLabel="fullname" filterBy="fullname" [showClear]="true">
+          <ng-template pTemplate="selectedItem">
+            <div class="p-d-flex p-ai-center"  *ngIf="selectedTeacher">
+                <img width="32px" src="assets/media/avatar/{{selectedTeacher.avatar}}"/>
+                <div class="p-ml-2">{{selectedTeacher.fullname}}</div>
+            </div>
+        </ng-template>
+        <ng-template let-tc pTemplate="item">
+            <div class="p-d-flex p-ai-center">
+                <img width="32px" src="assets/media/avatar/{{tc.avatar}}"/>
+                <div class="p-ml-2">{{tc.fullname}}</div>
+            </div>
+        </ng-template>
+      </p-dropdown>
+        <small class="p-invalid" *ngIf="!selectedTeacher">
+          Chọn Giáo Viên là bắt buộc (Chọn đầu tiên)
+        </small>
+      </div>
+    </div>
+    <div class="p-col-4">
+      <div class="p-field">
+        <label for="classname">Nhóm Quyền</label>
+        <p-multiSelect [options]="roleGroupUsers" [(ngModel)]="selectedRoleGroupUsers" optionLabel="name"
+          placeholder="Chọn Quyền" [disabled]="!selectedTeacher">
+        </p-multiSelect>
+        <!-- <small class="p-invalid" *ngIf="!selectedRoleGroupUsers || selectedRoleGroupUsers.length === 0">
+          Chọn Quyền là bắt buộc
+        </small> -->
+      </div>
+    </div>
+    <div class="p-col-4">
+      <div class="p-field">
+        <label for="classname">Cấp Độ</label>
+        <p-dropdown [style]="{width:'100%',padding:'.5rem'}" [options]="levels"
+        [(ngModel)]="selectedLevel" [filter]="true" placeholder="Chọn Cấp Độ" [showClear]="true" [disabled]="!selectedTeacher">
+      </p-dropdown>
+        <small class="p-invalid" *ngIf="!selectedLevel">
+          Chọn Cấp Độ là bắt buộc
+        </small>
+      </div>
+    </div>
+
+    <div class="p-col-12 p-d-block p-mt-2" >
+      <button pButton pRipple label="Cập Nhật" icon="pi pi-check" style="max-width: 120px;" class="p-button-raise p-button-success p-d-inline"
+        (click)="updateUserRoleGroup()" [disabled]="!selectedLevel || !selectedTeacher"></button>
+    </div>
+  </div>
+</p-panel>

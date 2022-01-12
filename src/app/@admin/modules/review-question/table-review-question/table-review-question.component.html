@@ -1,0 +1,61 @@
+<p-table [value]="reviewQuestions" [rows]="10"
+  [globalFilterFields]="['id','reviewQuestionName','createdDate','updatedDate']" [rowHover]="true" dataKey="id"
+  [(selection)]="selectedReviewQuestions" (onRowSelect)="onRowSelectOrUnSelect()"
+  (onRowUnselect)="onRowSelectOrUnSelect()" (onHeaderCheckboxToggle)="onRowSelectOrUnSelect()"
+  currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} bản ghi" [showCurrentPageReport]="true">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th>Mã câu hỏi</th>
+      <th>Câu hỏi</th>
+      <th>Thời gian</th>
+      <th>Ngày tạo</th>
+      <th>
+        <button (click)="onCreateReviewQuestion()"
+          class="p-button p-button-success p-component p-button-icon-only p-ripple p-mr-2">
+          <span><i class="pi pi-plus"></i></span>
+        </button>
+        <button (click)="onDeleteAllReviewQuestion()" [disabled]="!selectedReviewQuestions || selectedReviewQuestions.length === 0"
+          class="p-button p-button-danger p-component p-button-icon-only p-ripple">
+          <span><i class="pi pi-trash"></i></span>
+        </button>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="item"></p-tableCheckbox>
+      </td>
+      <td>{{ item.id | stringHiden}}</td>
+      <td>
+        <div [innerHtml]="item.reviewQuestionName | safeHtml">
+        </div>
+      </td>
+      <td><p-badge  severity="danger" value="{{ item.time }} giây" styleClass="p-mr-2"></p-badge></td>
+      <td>
+        <p-badge value="{{item.createdDate | date: 'dd/MM/yyyy'}}" styleClass="p-mr-2"></p-badge>
+      </td>
+      <td>
+        <button (click)="onEditReviewQuestion(item)"
+          class="p-button p-button-warning p-component p-button-icon-only p-ripple">
+          <span><i class="pi pi-pencil"></i></span>
+        </button>
+        <span aria-hidden="true" class="p-button-label">&nbsp;</span>
+        <button (click)="onDeleteReviewQuestion(item)"
+          class="p-button p-button-danger p-component p-button-icon-only p-ripple">
+          <span><i class="pi pi-trash"></i></span>
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<div class="paginator">
+  <p-paginator [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="rowsPerPageOptions"
+    (onPageChange)="onPaginate($event)"></p-paginator>
+  <div class="p-d-flex p-ai-center p-jc-between">
+    Hiển Thị {{totalRecords}} trên {{rows}}
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<section>
+  <div class="filter-centre">
+    <div class="p-field">
+      <h1>Tạo tài khoản của bạn</h1>
+    </div>
+    <p-messages [(value)]="errMsg" [enableService]="false"></p-messages>
+    <div class="p-fluid" [class.p-col-12]="user === {}">
+      <div class="p-field">
+        <label>Tài khoản </label><label class="p-error">*</label>
+        <input type="text" [(ngModel)]="user.username" placeholder="Nhập tài khoản( nhiều nhất 5 kí tự)" pInputText>
+      </div>
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-6">
+          <label>Mật khẩu</label><label class="p-error">*</label>
+          <p-password [(ngModel)]="user.password" [toggleMask]="true" placeholder="Nhập mật khẩu" required="true"></p-password>
+        </div>
+        <div class="p-field p-col-6">
+          <label>Xác nhận mật khẩu</label><label class="p-error">*</label>
+          <p-password [(ngModel)]="rePassword" [toggleMask]="true" placeholder="Nhập lại mật khẩu" required="true"></p-password>
+        </div>
+      </div>
+      <div class="p-grid p-fluid">
+        <div class="p-col-6">
+          <label>Số điện thoại</label><label class="p-error">*</label>
+          <p-inputMask mask="(0) 999-9999-99" [(ngModel)]="user.phone" placeholder="(0) 999-9999-99"></p-inputMask>
+        </div>
+        <div class="p-col-6">
+          <label>Giới tính</label><label class="p-error">*</label>
+          <p-dropdown [options]="gender" [(ngModel)]="user.gender" placeholder="Giới tính" optionValue="code"
+                      optionLabel="name"></p-dropdown>
+        </div>
+      </div>
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-8">
+          <label>Address</label><label class="p-error">*</label>
+          <textarea [(ngModel)]="user.address" rows="2" pInputTextarea placeholder="Nhập lại địa chỉ( nhiều nhất 5 kí tự)"></textarea>
+        </div>
+
+        <div class="p-fluid p-grid p-formgrid">
+          <div class="p-field p-col-12 w-265">
+            <label>Ngày sinh</label><label class="p-error">*</label>
+            <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2021"
+                        [(ngModel)]="user.birthday"></p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label>Họ và tên</label><label class="p-error">*</label>
+        <input type="text" [(ngModel)]="user.fullname" placeholder="Họ và tên( nhiều nhất 5 kí tự)" pInputText>
+      </div>
+      <div class="p-field p-col">
+        <label>Email</label><label class="p-error">*</label>
+        <input type="email" [(ngModel)]="user.email" placeholder="Email(đúng định dạng Mail)" pInputText>
+      </div>
+      <div class="p-field p-col-12 p-md-3">
+        <label>Lớp</label><label class="p-error">*</label>
+        <p-dropdown inputId="code" [options]="classes" placeholder="Chọn lớp"
+                    optionLabel="classname"></p-dropdown>
+      </div>
+    </div>
+    <div id="button" class="footer-button-regis">
+      <button pButton type="button" label="Đăng ký" class="p-button-info p-col-3 p-mr-4 p-text-bold"
+              (click)="register()"></button>
+      <button pButton type="button" label="Đăng nhập" class="p-button-info p-col-3 p-text-bold"
+              (click)="login()"></button>
+    </div>
+  </div>
+</section>

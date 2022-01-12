@@ -1,0 +1,33 @@
+<!-- <p-panel header="Tổng quan Học Viên Online">
+  <div style="width: auto;text-align: center; padding: 10px; background-color: #fff;">
+    <div class="p-grid">
+      <ng-container *ngIf="users && users.length > 0">
+        <div class="p-field p-col-2" *ngFor="let item of users">
+          <h5 style="color: red; font-weight: bold;">{{item.fullname}}</h5>
+          <p-knob [(ngModel)]="item.count" [disabled]="true" valueColor="darkorange" rangeColor="darkgreen"></p-knob>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!users || users.length == 0">
+        <div class="p-field p-col-12">
+          <h5 style="color: red; font-weight: bold; font-size: 1.5rem;">Chưa có Học Viên nào!</h5>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</p-panel> -->
+<p-panel header="Tổng quan Học Viên Online">
+  <div class="p-grid p-formgrid p-text-center">
+    <ng-template #spin>
+      <div class="p-col-12 p-d-flex p-jc-center">
+        <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="5"
+          fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+      </div>
+    </ng-template>
+    <ng-container *ngIf="users$ | async as item; else spin">
+      <div class="p-field p-col-12 p-md-4" *ngFor="let item of users">
+        <h5 style="color: red; font-weight: bold;">{{item.fullname}}</h5>
+        <p-knob [ngModel]="item.count" [disabled]="true" valueColor="darkorange" rangeColor="darkgreen"></p-knob>
+      </div>
+    </ng-container>
+  </div>
+</p-panel>

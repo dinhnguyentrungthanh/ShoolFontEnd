@@ -1,0 +1,180 @@
+<div class="mt" style="margin-bottom: 10px;height: auto;text-align: center;">
+  <p-panel header=" Thông Tin Lớp">
+    <p> Tên Khối: <p-badge severity="info" value="{{block?.blockname}}" styleClass="p-mr-2"></p-badge></p>
+    <p> Tên Lớp : <p-badge severity="success" value="{{class?.classname}}" styleClass="p-mr-2"></p-badge></p>
+    <p> Người Tạo : <p-badge severity="warning" value="{{class?.createdBy || 'admin'}}" styleClass="p-mr-2"></p-badge></p>
+    <p>Ngày Tạo : <p-badge severity="primary" value="{{class?.createdDate | date : 'dd/MM/yyyy'}}" styleClass="p-mr-2"></p-badge></p>
+  </p-panel>
+</div>
+<p-panel header="Thông Tin Học Sinh">
+  <p-toolbar>
+    <ng-template pTemplate="right">
+      <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger" (click)="deleteselectedStudents()"
+        [disabled]="!selectedStudents || !selectedStudents.length"></button>
+    </ng-template>
+  </p-toolbar>
+  <app-table-student
+  [students]="students"
+  [selectedStudents]="selectedStudents"
+  [rows]="rows"
+  [totalRecords]="totalRecords"
+  (onSelected)="onSelected($event)"
+  (onEdit)="editUser($event)"
+  (onDelete)="deleteUser($event)"
+  (onPagingChange)="onPagingChange($event)"
+  (onChangePassword)="onChangePassword($event)">
+  </app-table-student>
+</p-panel>
+
+<p-dialog [(visible)]="userDialog" [style]="{width: '50vw'}" header="Chi tiết Học Viên" [modal]="true"
+  styleClass="p-fluid" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content">
+    <div class="p-grid p-fluid">
+      <div class="p-col-6" [class.p-col-12]="student === {}">
+        <div class="p-field" [formGroup]="form">
+          <label for="username">Tài khoản 1</label>
+          <input type="text" formControlName="username" [class.ng-invalid]="isExistedUsername" pInputText id="username"
+            [(ngModel)]="student.username" readonly *ngIf="isEditing" />
+          <small class="p-invalid"
+            *ngIf="(f.username.touched || f.username.dirty || submitted) && f.username.errors?.required">
+            Tài khoản là bắt buộc
+          </small>
+          <small class="p-invalid"
+            *ngIf="(f.username.touched || f.username.dirty || submitted) && f.username.errors?.minlength">
+            Tài khoản phải từ 5 đến 100
+          </small>
+          <small class="p-invalid"
+            *ngIf="(f.username.touched || f.username.dirty || submitted) && f.username.errors?.maxlength">
+            Tài khoản phải từ 5 đến 100
+          </small>
+          <small class="p-invalid" *ngIf="isExistedUsername">
+            Tài khoản đã tồn tại
+          </small>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field" [formGroup]="form">
+          <label for="fullname">Họ Và Tên</label>
+          <input type="text" formControlName="fullname" pInputText id="fullname" [(ngModel)]="student.fullname" required
+            autofocus />
+          <small class="p-invalid"
+            *ngIf="(f.fullname.touched || f.fullname.dirty || submitted) && f.fullname.errors?.required">
+            Họ và Tên là bắt buộc
+          </small><small class="p-invalid"
+            *ngIf="(f.fullname.touched || f.fullname.dirty || submitted) && f.fullname.errors?.minlength">
+            Họ và tên phải từ 5 đến 100
+          </small>
+          <small class="p-invalid"
+            *ngIf="(f.fullname.touched || f.fullname.dirty || submitted) && f.fullname.errors?.maxlength">
+            Họ và tên phải từ 5 đến 100
+          </small>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-6">
+        <div class="p-field">
+          <label for="gender">Lớp Học</label>
+          <p-multiSelect [options]="classes" [(ngModel)]="selectedClasses" optionLabel="classname" optionValue="id">
+          </p-multiSelect>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-6">
+        <div class="p-field">
+          <label for="gender">Giới Tính</label>
+          <p-dropdown [options]="genders" [(ngModel)]="student.gender" optionLabel="name" optionValue="code">
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <div class="p-field">
+          <label for="address">Địa chỉ</label>
+          <input type="text" pInputText id="address" [(ngModel)]="student.address" autofocus />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-6">
+        <div class="p-field" [formGroup]="form">
+          <label for="birthday">Ngày Sinh</label>
+          <p-calendar formControlName="birthday" [monthNavigator]="true" [yearNavigator]="true" yearRange="1990:2021"
+            inputId="birthday" [(ngModel)]="student.birthday" [touchUI]="true" [readonlyInput]="true"></p-calendar>
+          <small class="p-invalid"
+            *ngIf="(f.birthday.touched || f.birthday.dirty || submitted) && f.birthday.errors?.required">
+            Ngày Sinh là bắt buộc
+          </small>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-6">
+        <div class="p-field">
+          <label for="birthday">Hình ảnh</label>
+          <p-progressBar [value]="uploadProgress"></p-progressBar>
+          <div class="p-d-flex p-jc-center p-ai-center p-mt-2 avatar">
+            <p-avatar image="assets/media/avatar/{{student.avatar}}" styleClass="p-mr-2"
+              size="xlarge" shape="circle" (click)="fileUpload?.click()">
+              <i class="pi pi-upload"></i>
+            </p-avatar>
+            <input type="file" class="file-input" [class.p-d-none]="true" [accept]="'image/*'"
+              (change)="saveAvatar($event)" #fileUpload>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Trở về" icon="pi pi-arrow-left" class="p-button-text"
+      (click)="hideDialog()"></button>
+    <button pButton pRipple label="Cập Nhật" icon="pi pi-check" class="p-button-text"
+      (click)="updateStudent()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="isShowDialogChangePW" [style]="{width: '30vw'}" header="Thay Đổi Mật Khẩu" [modal]="true"
+  styleClass="p-fluid" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content">
+    <div class="p-grid p-fluid">
+      <div class="p-col-12">
+        <div class="p-field">
+          <label for="username">Tài khoản</label>
+          <input type="text" pInputText id="username"
+            [(ngModel)]="student.username" readonly/>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="formPass">
+          <label for="o">Mật Khẩu</label>
+          <p-password formControlName="newPassword"[toggleMask]="true" id="o" ></p-password>
+          <small class="p-invalid"
+            *ngIf="(formPass.controls.newPassword.touched || formPass.controls.newPassword.dirty || submitted) && formPass.controls.newPassword.errors?.required">
+            Mật Khẩu là bắt buộc
+          </small>
+        </div>
+      </div>
+      <div class="p-col-12 ">
+        <div class="p-field" [formGroup]="formPass">
+          <label for="o1">Nhập Lại Mật Khẩu</label>
+            <p-password formControlName="renewPassword"[toggleMask]="true" id="o1" ></p-password>
+            <small class="p-invalid"
+            *ngIf="(formPass.controls.renewPassword.touched || formPass.controls.renewPassword.dirty || submitted) && formPass.controls.renewPassword.errors?.required">
+            Nhập Lại Mật Khẩu là bắt buộc
+          </small>
+          <small class="p-invalid"
+            *ngIf="(formPass.controls.renewPassword.touched || formPass.controls.renewPassword.dirty || submitted) && formPass.controls.renewPassword.value !== formPass.controls.newPassword.value">
+            Mật khẩu không khớp nhau!
+          </small>
+        </div>
+      </div>
+
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Trở về" icon="pi pi-arrow-left" class="p-button-text"
+      (click)="isShowDialogChangePW = !isShowDialogChangePW"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text"
+      (click)="changePassword()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

@@ -1,0 +1,13 @@
+<p-panel header="CHƯƠNG ÔN TẬP">
+    <div style="text-align: center;">
+        <h2>DANH SÁCH CHƯƠNG</h2>
+    </div>
+    <p-tree [value]="chapterListTree" (onNodeSelect)="nodeSelect($event)" [filter]="true" filterMode="strict">
+            <ng-template let-node pTemplate="url">
+                <a [routerLink]="node.data">{{node.label}}</a>
+            </ng-template>
+            <ng-template let-node pTemplate="default">
+                <b>{{node.label}}</b>
+            </ng-template>
+    </p-tree>
+</p-panel>

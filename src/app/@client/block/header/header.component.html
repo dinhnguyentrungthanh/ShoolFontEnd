@@ -1,0 +1,43 @@
+<div class="header-container">
+    <div class="container-client">
+        <div class="logo" [routerLink]="['/']">
+            <img src="/assets/logo.jpg">
+        </div>
+        <div class="header-main p-grid">
+            <div class="header-main-name p-col-12">
+                <div class=" name p-grid">
+                    <div class="namestyle p-col-6">
+                        <img class="image-header" src="assets/images/logo1.png">
+                    </div>
+                    <div class="phonestyle p-col-6">
+                        <div class="buttonstyle">
+                            <div class="p-d-flex p-jc-center p-at-center" *ngIf="!authService.isLoggedIn()">
+                                <a [routerLink]="['/login']">Xin  chào <b style="color:red; margin: 0 3px">  Học Sinh Mới</b>!  Hãy đăng  <b style="color:blue; margin: 0 3px">  Đăng  Nhập  </b>  để học tập</a>
+                            </div>
+                            <div class="p-d-flex p-jc-center p-at-center" *ngIf="authService.isLoggedIn()">
+                              <a [routerLink]="['/information']">Xin  chào <p-avatar image="assets/media/avatar/{{authService.getAvatar()}}" shape="circle" size="large"></p-avatar> <b style="color:blue; margin: 0 3px">  {{authService.getFullname()}}</b></a>
+
+                          </div>
+                            <!-- <div class="button" *ngIf="authService.isLoggedIn()">
+                                <div class="p-col-12" style="text-align: center;height: 100%;">
+                                    <button [routerLink]="['/information']" pButton type="button"
+                                        label="Xin Chào Bạn : {{authService.getFullname()}}" icon="pi pi-user"
+                                        class="p-button-success" badge="8" badgeClass="p-badge-info"></button>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-main-manu p-col-12">
+                <div class="p-grid">
+                    <div class=" p-col-2"></div>
+                    <div class=" menu p-col-10">
+                        <p-menubar [model]="items">
+                        </p-menubar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

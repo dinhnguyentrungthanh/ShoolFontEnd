@@ -1,0 +1,80 @@
+<p-panel header="Danh sách bài kiểm tra">
+  <div class="card">
+    <p-toolbar styleClass="p-mb-4">
+      <ng-template pTemplate="left">
+        <button pButton pRipple label="Tạo Mới" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="onCreate()">
+        </button>
+        <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger"
+          [disabled]="!selectedTestTypes || selectedTestTypes.length === 0" (click)="onDeleteAllTestTypes()">
+        </button>
+      </ng-template>
+    </p-toolbar>
+    <app-table-test-type [selectedTestTypes]="selectedTestTypes" [testTypes]="testTypes" [loading]="loading"
+      [rows]="rows" [totalRecords]="totalRecords" (onPagingChange)="onPagingChange($event)"
+      (onDelete)="onDelete($event)" (onEdit)="onEdit($event)" (onSelected)="onSelected($event)"></app-table-test-type>
+  </div>
+</p-panel>
+
+<p-dialog [(visible)]="isOpenDialog" [style]="{width: '450px', position:'relative'}" header="Thông tin Bài Kiểm Tra"
+  [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content">
+    <div class="p-grid p-fluid">
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="classname">Khối:</label>
+          <p-dropdown [options]="blocks" [(ngModel)]="selectedBlock" placeholder="Chọn Khối" optionLabel="blockname"
+            formControlName="block" [showClear]="true">
+          </p-dropdown>
+          <small class="p-invalid" *ngIf="submitted && (!selectedBlock || selectedBlock === {})">Khối là bắt
+            buộc</small>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="time">Thời gian:</label>
+          <p-inputNumber id="time" [(ngModel)]="testType.time" formControlName="time" suffix=" giây"></p-inputNumber>
+          <small class="p-invalid" *ngIf="(submitted && !testType.time) || ((f.time.touched || f.time.dirty || submitted) && f.time.errors?.required)
+        ">Thời gian là bắt buộc</small>
+          <small class="p-invalid" *ngIf="((f.time.touched || f.time.dirty || submitted) && f.time.errors?.min)
+        ">Thời gian phải là số nguyên lớn hớn 0 và nhỏ hơn 7200</small>
+          <small class="p-invalid" *ngIf="((f.time.touched || f.time.dirty || submitted) && f.time.errors?.max)
+        ">Thời gian phải là số nguyên lớn hớn 0 và nhỏ hơn 7200</small>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="classname">Loại bài kiểm tra: <b style="color: red;">(Không cho phép chỉnh sửa sau khi tạo)</b></label>
+          <p-dropdown [options]="types" [(ngModel)]="selectedType" optionLabel="name" optionValue="value"
+            formControlName="type" [showClear]="true" placeholder="Chọn loại bài kiểm tra" [disabled]="isEditing">
+          </p-dropdown>
+          <small class="p-invalid" *ngIf="submitted && !selectedType">Kiêu Bài Kiểm tra là bắt buộc</small>
+        </div>
+      </div>
+      <div class="p-col-12" *ngIf="isEditing">
+        <div class="p-field">
+          <label for="classname">Mã bài kiểm tra:</label>
+          <input type="text" id="id" class="p-inputtext p-component" [(ngModel)]="testType.id" [disabled]="isEditing" />
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-field" [formGroup]="form">
+          <label for="classname">Tên kiểm tra:</label>
+          <input type="text" id="testTypeName" class="p-inputtext p-component" [(ngModel)]="testType.testTypeName"
+            formControlName="testTypeName" />
+        </div>
+        <small class="p-invalid" *ngIf="(submitted && !testType.testTypeName) || ((f.testTypeName.touched || f.testTypeName.dirty || submitted) && f.testTypeName.errors?.required)
+        ">Tên Bài Kiểm tra là bắt buộc</small>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-raised p-button-danger"
+      (click)="isOpenDialog = !isOpenDialog"></button>
+    <button pButton pRipple label="Tạo Mới" icon="pi pi-check" class="p-button-raised p-button-info" *ngIf="!isEditing"
+      (click)="save()" [loading]="disableBtn"></button>
+    <button pButton pRipple label="Cập Nhật" icon="pi pi-check" class="p-button-raised p-button-info" *ngIf="isEditing"
+      (click)="update()" [loading]="disableBtn"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

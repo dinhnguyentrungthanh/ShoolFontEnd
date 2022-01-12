@@ -1,0 +1,72 @@
+<p-panel header="GÓC HỌC TẬP">
+  <ng-template #spin>
+    <div class="p-d-flex p-jc-center">
+      <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="5"
+        fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+    </div>
+  </ng-template>
+  <p-dataView *ngIf="blocks$ | async as bs; else spin" [value]="bs" layout="grid">
+    <ng-template let-block pTemplate="gridItem">
+      <div class="p-col-12 p-md-6">
+        <div class="product-grid-item card">
+          <div class="product-grid-item-top">
+            <div>
+              <i class="pi pi-star product-category-icon"></i>
+              <span class="product-category">
+                <p-badge [value]="'Vui Học'" severity="success" styleClass="p-mr-2"></p-badge>
+              </span>
+            </div>
+            <span [class]="'product-badge'">
+              <p-badge [value]="'Học Vui  '" severity="info" styleClass="p-mr-2"></p-badge>
+            </span>
+          </div>
+          <div class="product-grid-item-content">
+            <img _ngcontent-sai-c126="" src="assets/images/button_images.jpg" alt="Bamboo Watch"
+              (click)="showPositionDialog(block)">
+            <div class="product-name">
+              <p-button styleClass="btd p-button-outlined" (click)="showPositionDialog(block)">
+                <img alt="logo" src="assets/images/icon_button.png" style="width: 2rem" />
+                <span class=" textbtn p-ml-2 p-text-bold">{{block.blockname}}</span>
+              </p-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</p-panel>
+
+<p-dialog [(visible)]="displayPosition" [position]="position" [modal]="true" [style]="{width: '50vw'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="header">
+    <h2 style="padding-left: 27%;color: blue;"><i class="pi pi-lock"></i>&ensp;VUI LÒNG CHỌN DẠNG TOÁN&ensp;<i
+        class="pi pi-key"></i>&ensp;</h2>
+  </ng-template>
+  <div class="p-grid">
+    <div class="p-col-4">
+      <img style="width: 100%;border-radius: 100%;" src="assets/images/icon2.png">
+    </div>
+    <ng-container *ngIf="majors && majors.length > 0 && mathDesigns && mathDesigns.length > 0">
+      <div class="p-col-4" style="text-align: center;" *ngFor="let major of majors">
+        <div *ngFor="let md of mathDesigns" style="margin-bottom: 1em;">
+          <p-button styleClass="btd p-button-outlined" [routerLink]="['kien-thuc', block.url,major.url, md.url]">
+            <img alt="logo" src="assets/images/icon2.jpg" style="width: 1.5rem;border-radius: 200px;" />
+            <span class="p-ml-2 p-text-bold">{{md.mathDesignName}}</span>
+          </p-button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!majors || majors.length == 0 || !mathDesigns || mathDesigns.length == 0">
+      <div class="p-col-4" style="text-align: center;">
+        <div style="margin-bottom: 1em; color: red">
+          Chưa có Dạng Toán
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="p-col-4">
+      <img style="width: 100%;border-radius: 100%;" src="assets/images/icon.png">
+    </div>
+  </div>
+</p-dialog>

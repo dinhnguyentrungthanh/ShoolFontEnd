@@ -1,0 +1,53 @@
+<app-table-review-question [reviewQuestions]="reviewQuestions" [rows]="rows" [totalRecords]="totalRecords"
+  [selectedReviewQuestions]="selectedReviewQuestions"
+  (onPagingChange)="onPagingChange($event)" (onDelete)="onDelete($event)" (onEdit)="openEditDialog($event)"
+  (onSelected)="onSelected($event)" (onDeleteAll)="onDeleteAllReviewQuestion()" (onCreate)="openCreateDialog()">
+</app-table-review-question>
+
+<p-dialog [(visible)]="isShowDialog" [style]="{width: '900px'}" [maximizable]="true" [baseZIndex]="10000"
+  header="Câu hỏi và bài tập đánh giá" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="p-field" *ngIf="isEditing">
+      <label for="id">Id:</label>
+      <input p-input id="id" class="p-inputtext p-component" disabled value="{{reviewQuestion.id}}" />
+    </div>
+    <div class="p-field" [formGroup]="form">
+      <label for="name">Thời gian:</label>
+      <p-inputNumber [(ngModel)]="reviewQuestion.time" formControlName="time" suffix=" giây"></p-inputNumber>
+      <small class="p-invalid" *ngIf="(submitted && !reviewQuestion.time) || ((f.time.touched || f.time.dirty || submitted) && f.time.errors?.required)
+      ">Thời gian là bắt buộc</small>
+      <small class="p-invalid" *ngIf="((f.time.touched || f.time.dirty || submitted) && f.time.errors?.min)
+      ">Thời gian phải là số nguyên lớn hớn 0 và nhỏ hơn 3600</small>
+      <small class="p-invalid" *ngIf="((f.time.touched || f.time.dirty || submitted) && f.time.errors?.max)
+      ">Thời gian phải là số nguyên lớn hớn 0 và nhỏ hơn 3600</small>
+    </div>
+    <div class="p-field" [formGroup]="form">
+      <label for="name">Câu hỏi:</label>
+      <ckeditor id="reviewQuestionName" [ngModel]="reviewQuestion.reviewQuestionName" [config]="toolBar"
+        formControlName="reviewQuestionName" [editor]="Editor">
+      </ckeditor>
+      <small class="p-invalid" *ngIf="(submitted && !f.reviewQuestionName.value) || ((f.reviewQuestionName.touched || f.reviewQuestionName.dirty || submitted) && f.reviewQuestionName.errors?.required)
+      ">Câu hỏi là bắt buộc</small>
+    </div>
+    <div class="p-field" [formGroup]="form">
+      <label for="name">Câu trả lời:</label>
+      <ckeditor id="reviewQuestionAnswer" [ngModel]="reviewQuestion.reviewQuestionAnswer" [config]="toolBar"
+        formControlName="reviewQuestionAnswer" [editor]="Editor">
+      </ckeditor>
+      <small class="p-invalid" *ngIf="(submitted && !f.reviewQuestionAnswer.value) || ((f.reviewQuestionAnswer.touched || f.reviewQuestionAnswer.dirty || submitted) && f.reviewQuestionAnswer.errors?.required)
+      ">Câu trả lời là bắt buộc</small>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button *ngIf="!isEditing" [loading]="loadingBtn" type="button" (click)="save()" icon="pi pi-save" pButton pRipple label="Tạo Mới"
+      class="p-button p-button-info p-component p-ripple">
+    </button>
+    <button *ngIf="isEditing" [loading]="loadingBtn" type="button" (click)="update()" icon="pi pi-save" pButton pRipple label="Cập Nhật"
+      class="p-button p-button-info p-component p-ripple">
+    </button>
+  </ng-template>
+</p-dialog>
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

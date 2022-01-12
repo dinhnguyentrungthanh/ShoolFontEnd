@@ -1,0 +1,49 @@
+<p-panel header="Kiến Thức Tổng Hợp">
+  <div class="card">
+    <div class="p-grid p-fluid">
+      <div class="p-sm-3 p-col-3">
+        <input style="padding: 1.1rem;" placeholder="Tiêu đề..." class="p-inputtext p-component" [(ngModel)]="keywords">
+      </div>
+      <div class="p-sm-3 p-col-3">
+        <p-multiSelect [options]="blocks" optionLabel="blockname" [(ngModel)]="selectedBlocks"
+          (onChange)="changeBlock()" defaultLabel="Chọn Khối">
+        </p-multiSelect>
+      </div>
+      <div class="p-sm-3 p-col-3">
+        <p-multiSelect [options]="mathDesigns" optionLabel="mathDesignName" [(ngModel)]="selectedMathDesigns"
+          (onChange)="changeMathDesign()" defaultLabel="Chọn Phân Môn"></p-multiSelect>
+      </div>
+      <div class="p-sm-3 p-col-3">
+        <p-multiSelect [options]="chapters" optionLabel="chaptername" [(ngModel)]="selectedChapters"
+          defaultLabel="Chọn Chương"></p-multiSelect>
+      </div>
+      <div class="p-sm-12 p-col-12 p-jc-end p-ai-end">
+        <div class="p-d-inline-block p-mr-2">
+          <button [disabled]="isSearchingBtn" [label]="!isSearchingBtn ? 'Tìm Kiếm' : 'Đang Tìm Kiếm'"
+            icon="pi pi-search" pButton pRipple class="p-button-raised p-button-success"
+            (click)="onSearching()"></button>
+        </div>
+        <div class="p-d-inline-block p-mr-2">
+          <button pButton pRipple label="Mặc định" icon="pi pi-refresh" class="p-button-raised p-button-warning"
+            (click)="initOrResetFilter()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-grid p-fluid p-mt-2">
+    <app-table-knowledge
+    [knowledges]="knowledges"
+    [loading]="loading"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    (onPagingChange)="onPagingChange($event)"
+    (onDelete)="onDelete($event)"
+    (onEdit)="onEdit($event)"
+    (onSelected)="onSelected($event)"
+    (onDeleteAll)="onDeleteAllKnowledge()"
+    ></app-table-knowledge>
+  </div>
+</p-panel>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

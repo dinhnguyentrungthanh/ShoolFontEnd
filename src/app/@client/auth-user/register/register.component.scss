@@ -1,0 +1,30 @@
+:host{
+    display: block;
+    .p-dialog-header {
+      align-items: center;
+      display: none;
+      flex-shrink: 0;
+      justify-content: space-between;
+  }
+}
+.gif{
+  padding-top: 50%;
+  width: 100%;
+}
+
+  #button button {
+    min-height: 50px;
+    font-size: large;
+  }
+  .w-265 {
+    width: 265px;
+  }
+  .footer-button-regis{
+    margin-bottom: 1em;
+  }
+  .p-error{
+    color: red;
+    margin-top: -1em;
+  }
+  
+  

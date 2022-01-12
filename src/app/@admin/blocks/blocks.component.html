@@ -1,0 +1,20 @@
+<div class="layout_container">
+  <div class="layout_menubar p-shadow-5">
+    <app-menubar [displayMenuMobile]="isDesktop" [expandMenu]="isExpandMenu" [displaySiderbarRight]="isDisplaySiderbarRight"
+    (onToggleMenu)="onMenuState($event)" (onToggleSiderbarRight)="onSibarRightState($event)"
+    (onLogout)="logout($event)"></app-menubar>
+  </div>
+  <div class="layout_sidebar transition-opacity transition-d p-shadow-5" [ngClass]="{'opacity-0': !isExpandMenu,'p-d-none': !isExpandMenu, 'opacity-1': isExpandMenu}">
+      <app-sidebar></app-sidebar>
+  </div>
+  <div class="layout_contents transition-display" [class.layout_contents-full]="!isExpandMenu">
+    <app-breadcrumb></app-breadcrumb>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<p-sidebar [(visible)]="isDisplaySiderbarRight" position="right" styleClass="sidebar-right" [showCloseIcon]="false">
+  <app-sidebar-right></app-sidebar-right>
+</p-sidebar>
+
+<p-toast></p-toast>
